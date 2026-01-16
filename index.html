@@ -6,16 +6,65 @@
   <title>Aarthi & Rohit Wedding Invitation</title>
 
   <!-- WhatsApp / Instagram Preview -->
-  <meta property="og:title" content="Aarthi & Rohit" />
-  <meta property="og:description" content="Wedding & Reception Invitation" />
-  <meta property="og:image" content="https://pixora24.github.io/PIXORA_INVITES_AARTHI_ROHIT/assets/wedding/preview.jpg" />
+  <meta property="og:title" content="Aarthi & Rohit are getting married 💍" />
+  <meta property="og:description"
+        content="With the blessings of our families, we joyfully invite you to celebrate our wedding and reception." />
+  <meta property="og:image"
+        content="https://pixora24.github.io/PIXORA_INVITES_AARTHI_ROHIT/assets/wedding/preview.jpg" />
   <meta property="og:type" content="website" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 24px 16px 40px;
+      background: radial-gradient(circle at top, #1c0d14 0%, #000 70%);
+      font-family: serif;
+      color: #fff;
+    }
+
+    #eventGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .event-card {
+      width: 100%;
+      max-width: 340px;
+      cursor: pointer;
+    }
+
+    .event-card img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      box-shadow:
+        0 25px 50px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .event-label {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      opacity: 0.9;
+    }
+  </style>
 </head>
+
 <body>
 
+  <!-- REQUIRED container -->
+  <div id="eventGrid"></div>
+
+  <!-- Load client config FIRST -->
   <script src="config.js"></script>
+
+  <!-- Then core logic -->
   <script src="core/index.js"></script>
 
 </body>
