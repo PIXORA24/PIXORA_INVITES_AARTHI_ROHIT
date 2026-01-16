@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Invitation</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 16px 16px 140px;
+      background: radial-gradient(circle at top, #1c0d14 0%, #000 68%);
+      color: #fff;
+      font-family: serif;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .invite-panel {
+      max-width: 360px;
+      margin: 28px auto 16px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+    }
+
+    #countdown {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .action-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 14px 16px 22px;
+      display: flex;
+      gap: 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    }
+
+    .action-bar a {
+      flex: 1;
+      padding: 14px 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="invite-panel">
+    <video id="inviteVideo" playsinline muted></video>
+  </div>
+
+  <div id="countdown"></div>
+
+  <div class="action-bar">
+    <a id="mapLink" target="_blank">Open Map</a>
+    <a id="calendarLink" target="_blank">Add to Calendar</a>
+  </div>
+
+  <audio id="inviteMusic" loop></audio>
+
+  <script src="config.js"></script>
+  <script src="core/invite.js"></script>
+</body>
+</html>
