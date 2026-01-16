@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Aarthi & Rohit Invitation</title>
+
+  <!-- WhatsApp / Instagram Preview -->
+  <meta property="og:title" content="Aarthi & Rohit Wedding Invitation" />
+  <meta property="og:description" content="Join us to celebrate love, joy and togetherness." />
+  <meta property="og:image" content="assets/wedding/preview.jpg" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 24px 16px 40px;
+      background: radial-gradient(circle at top, #1c0d14 0%, #000 70%);
+      font-family: serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    #eventGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .event-card {
+      max-width: 340px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .event-card img {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      box-shadow:
+        0 25px 50px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .label {
+      margin-top: 12px;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="eventGrid"></div>
+
+  <script src="config.js"></script>
+  <script src="core/index.js"></script>
+</body>
+</html>
