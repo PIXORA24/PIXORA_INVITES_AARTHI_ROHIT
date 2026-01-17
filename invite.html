@@ -45,6 +45,34 @@
     }
 
     /* =========================
+       VIDEO PANEL FRAME / CANVAS
+       ========================= */
+
+    .invite-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+
+      /* Inner glass edge */
+      border: 1px solid rgba(255,255,255,0.12);
+
+      /* Inner depth */
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.35),
+        inset 0 12px 30px rgba(0,0,0,0.25);
+
+      /* Canvas separation */
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,0.18),
+        transparent 70%
+      );
+
+      pointer-events: none;
+    }
+
+    /* =========================
        VIDEO PANEL PRESS FEEDBACK
        ========================= */
 
@@ -202,7 +230,6 @@
         opacity: 0;
       }
     }
-
   </style>
 </head>
 
