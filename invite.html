@@ -62,16 +62,29 @@
       background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     }
 
-    .action-bar a {
-      flex: 1;
-      padding: 14px 0;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      text-decoration: none;
-      font-size: 14px;
-    }
+.action-bar a {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
 
       
   </style>
