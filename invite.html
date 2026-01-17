@@ -25,35 +25,61 @@ html, body {
 body {
   margin: 0;
   padding: 20px 16px 140px;
-  background: #000;
   color: #fff;
   font-family: "Playfair Display", serif;
   text-align: center;
   position: relative;
+
+  /* CONTROLLED DARK BASE */
+  background:
+    linear-gradient(
+      to bottom,
+      #0b0609 0%,
+      #050203 55%,
+      #000 100%
+    );
 }
 
 /* =========================
-   CEREMONIAL BACKDROP (OPTIONAL)
+   AMBIENT CEREMONIAL MOTION
    ========================= */
 
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -20%;
   z-index: 0;
   pointer-events: none;
 
   background:
     radial-gradient(
-      60% 35% at 50% 0%,
-      rgba(212,175,55,0.22),
+      60% 40% at 30% 20%,
+      rgba(255, 210, 160, 0.08),
       transparent 65%
     ),
     radial-gradient(
-      40% 25% at 20% 20%,
-      rgba(160,90,60,0.14),
+      50% 35% at 70% 60%,
+      rgba(180, 120, 80, 0.06),
       transparent 70%
     );
+
+  filter: blur(40px);
+  animation: ambient-drift 28s ease-in-out infinite;
+}
+
+@keyframes ambient-drift {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.35;
+  }
 }
 
 /* =========================
@@ -70,13 +96,13 @@ body::before {
   overflow: hidden;
   background: #000;
 
-  /* Album depth */
   box-shadow:
     0 40px 80px rgba(0,0,0,0.85),
     0 18px 30px rgba(0,0,0,0.45);
 }
 
 /* ===== EDGE REFLECTION (VIDEO) ===== */
+
 .invite-frame::after {
   content: "";
   position: absolute;
@@ -107,6 +133,7 @@ body::before {
 }
 
 /* PURE VIDEO — UNTOUCHED */
+
 .invite-frame video {
   width: 100%;
   display: block;
@@ -176,6 +203,7 @@ body::before {
 }
 
 /* ===== BUTTON REFLECTION ===== */
+
 .action-bar a::before {
   content: "";
   position: absolute;
@@ -207,7 +235,7 @@ body::before {
 
 <body>
 
-<!-- INVITE VIDEO (FRAMED, CALM) -->
+<!-- INVITE VIDEO -->
 <div class="invite-frame">
   <video id="inviteVideo" playsinline muted></video>
 </div>
