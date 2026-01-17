@@ -106,3 +106,31 @@
 .event-card:active img {
   transform: scale(1.1);
 }
+
+
+/* =========================
+   RIPPLE EFFECT
+   ========================= */
+
+.event-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  transform: scale(0);
+  animation: ripple-effect 450ms ease-out;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
