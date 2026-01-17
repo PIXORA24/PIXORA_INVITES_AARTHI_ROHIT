@@ -18,7 +18,7 @@ html, body {
 }
 
 /* =========================
-   PREMIUM NEUTRAL BASE
+   CEREMONIAL MAROON BASE
    ========================= */
 
 body {
@@ -32,8 +32,8 @@ body {
   background:
     radial-gradient(
       120% 60% at 50% 0%,
-      var(--bg-accent, rgba(80,60,65,0.45)),
-      #0f0b0d 65%
+      var(--bg-accent, rgba(120,60,70,0.45)),
+      #12070b 65%
     );
 
   transition: background 2s ease;
@@ -54,8 +54,8 @@ body::after {
     radial-gradient(
       130% 100% at 50% 45%,
       transparent 38%,
-      rgba(15,11,13,0.45) 65%,
-      rgba(15,11,13,0.85) 100%
+      rgba(18,7,11,0.45) 65%,
+      rgba(18,7,11,0.85) 100%
     );
 }
 
@@ -70,7 +70,7 @@ body::after {
   margin: 32px auto 18px;
   border-radius: 16px;
   overflow: hidden;
-  background: #000;
+  background: #000; /* video base only */
 
   box-shadow:
     0 40px 80px rgba(0,0,0,0.75),
@@ -78,7 +78,7 @@ body::after {
 }
 
 /* =========================
-   REFLECTIVE GLASS EDGE
+   GOLDEN REFLECTIVE EDGE
    ========================= */
 
 .invite-frame::after {
@@ -89,31 +89,33 @@ body::after {
   pointer-events: none;
 
   background:
-    /* top highlight */
+    /* golden top highlight */
     linear-gradient(
       to bottom,
-      rgba(255,255,255,0.22),
-      rgba(255,255,255,0.08) 18%,
+      rgba(212,175,55,0.28),
+      rgba(212,175,55,0.12) 18%,
       transparent 35%
     ),
+
     /* left curvature */
     radial-gradient(
       80% 60% at left center,
-      rgba(255,255,255,0.12),
+      rgba(212,175,55,0.14),
       transparent 60%
     ),
+
     /* right falloff */
     radial-gradient(
       80% 60% at right center,
-      rgba(0,0,0,0.25),
+      rgba(0,0,0,0.28),
       transparent 65%
     );
 
-  opacity: 0.6;
+  opacity: 0.65;
 }
 
 /* =========================
-   ULTRA-SLOW GLASS SWEEP
+   ULTRA-SLOW GOLDEN SWEEP
    ========================= */
 
 .invite-frame::before {
@@ -126,7 +128,7 @@ body::after {
   background: linear-gradient(
     120deg,
     transparent 42%,
-    rgba(255,255,255,0.26) 50%,
+    rgba(212,175,55,0.35) 50%,
     transparent 58%
   );
 
@@ -141,7 +143,7 @@ body::after {
     opacity: 0;
   }
   12% {
-    opacity: 0.35;
+    opacity: 0.45;
   }
   38% {
     transform: translateX(120%);
@@ -153,7 +155,7 @@ body::after {
   }
 }
 
-/* PURE VIDEO — UNTOUCHED */
+/* PURE VIDEO */
 
 .invite-frame video {
   width: 100%;
@@ -189,8 +191,8 @@ body::after {
 
   background: linear-gradient(
     to top,
-    rgba(15,11,13,0.95),
-    rgba(15,11,13,0.6),
+    rgba(18,7,11,0.95),
+    rgba(18,7,11,0.6),
     transparent
   );
 
@@ -227,7 +229,7 @@ body::after {
   background: linear-gradient(
     120deg,
     transparent 35%,
-    rgba(255,255,255,0.28) 50%,
+    rgba(212,175,55,0.28) 50%,
     transparent 65%
   );
 
@@ -282,8 +284,8 @@ function updateBgFromVideo() {
     const avg = (r + g + b) / 3;
 
     r = Math.floor((r * 0.6 + avg * 0.4) * 0.55);
-    g = Math.floor((g * 0.6 + avg * 0.4) * 0.55);
-    b = Math.floor((b * 0.6 + avg * 0.4) * 0.55);
+    g = Math.floor((g * 0.6 + avg * 0.4) * 0.45);
+    b = Math.floor((b * 0.6 + avg * 0.4) * 0.45);
 
     document.body.style.setProperty(
       "--bg-accent",
