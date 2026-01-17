@@ -17,28 +17,69 @@
       overflow-x: hidden;
     }
 
-.invite-panel {
-  max-width: 360px;
-  margin: 28px auto 16px;
-  border-radius: 20px;
-  overflow: hidden;
+    /* =========================
+       INVITE VIDEO PANEL
+       ========================= */
 
-  position: relative;
+    .invite-panel {
+      max-width: 360px;
+      margin: 28px auto 16px;
+      border-radius: 20px;
+      overflow: hidden;
 
-  /* Glass base */
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(var(--glass-blur, 8px));
-  -webkit-backdrop-filter: blur(var(--glass-blur, 8px));
+      position: relative;
+      z-index: 1;
 
-  box-shadow:
-    0 30px 60px rgba(0,0,0,0.6),
-    0 0 0 1px rgba(255,255,255,0.06);
+      /* Glass base */
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(var(--glass-blur, 8px));
+      -webkit-backdrop-filter: blur(var(--glass-blur, 8px));
 
-  transition:
-    backdrop-filter 0.3s ease,
-    box-shadow 0.3s ease;
-}
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.06);
 
+      transition:
+        backdrop-filter 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    /* Video panel aura */
+    .invite-panel::before {
+      content: "";
+      position: absolute;
+      inset: -22px;
+      z-index: -1;
+
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 200, 140, 0.22) 0%,
+        rgba(255, 180, 120, 0.14) 35%,
+        rgba(255, 140, 90, 0.08) 55%,
+        transparent 72%
+      );
+
+      filter: blur(32px);
+      opacity: 0.55;
+
+      animation: aura-breathe 16s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes aura-breathe {
+      0% {
+        opacity: 0.45;
+        transform: scale(0.98);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(1.02);
+      }
+      100% {
+        opacity: 0.45;
+        transform: scale(0.98);
+      }
+    }
 
     video {
       width: 100%;
@@ -51,6 +92,10 @@
       opacity: 0.85;
     }
 
+    /* =========================
+       ACTION BAR
+       ========================= */
+
     .action-bar {
       position: fixed;
       left: 0;
@@ -62,115 +107,86 @@
       background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     }
 
-.action-bar a {
-  flex: 1;
-  padding: 14px 0;
-  border-radius: 999px;
+    .action-bar a {
+      flex: 1;
+      padding: 14px 0;
+      border-radius: 999px;
 
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
 
-  border: 1px solid rgba(255,255,255,0.25);
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
 
-  position: relative;
-  overflow: hidden;
+      position: relative;
+      overflow: hidden;
 
-  transition:
-    background 0.25s ease,
-    box-shadow 0.25s ease,
-    transform 0.2s ease;
-}
+      transition:
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+    }
 
-.action-bar a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+    .action-bar a:active {
+      background: rgba(255,255,255,0.18);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transform: scale(0.97);
+    }
 
-  background: linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,0.35) 50%,
-    transparent 70%
-  );
+    /* =========================
+       BUTTON REFLECTION
+       ========================= */
 
-  transform: translateX(-120%);
-  transition: transform 0.45s ease;
-}
+    .action-bar a::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: -120%;
+      width: 200%;
+      height: 180%;
 
-.action-bar a:active::after {
-  transform: translateX(120%);
-}
+      background: linear-gradient(
+        120deg,
+        transparent 35%,
+        rgba(255,255,255,0.25) 50%,
+        transparent 65%
+      );
 
-.action-bar a:active {
-  background: rgba(255,255,255,0.18);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  transform: scale(0.97);
-}
+      opacity: 0.6;
+      animation: glass-reflection 8s ease-in-out infinite;
+      pointer-events: none;
+    }
 
-/* =========================
-   SUBTLE BUTTON REFLECTION
-   ========================= */
+    .action-bar a:hover::before,
+    .action-bar a:active::before {
+      animation-play-state: paused;
+      opacity: 0;
+    }
 
-.action-bar a {
-  position: relative;
-  overflow: hidden;
-}
+    @keyframes glass-reflection {
+      0% {
+        transform: translateX(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+    }
 
-/* Reflection layer */
-.action-bar a::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -120%;
-  width: 200%;
-  height: 180%;
-
-  background: linear-gradient(
-    120deg,
-    transparent 35%,
-    rgba(255,255,255,0.25) 50%,
-    transparent 65%
-  );
-
-  transform: translateX(0);
-  opacity: 0.6;
-
-  animation: glass-reflection 8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* Pause reflection when user interacts */
-.action-bar a:active::before,
-.action-bar a:hover::before {
-  animation-play-state: paused;
-  opacity: 0;
-}
-
-@keyframes glass-reflection {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.6;
-  }
-  50% {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-}
-
-      
   </style>
 </head>
+
 <body>
 
   <div class="invite-panel">
@@ -188,20 +204,22 @@
 
   <script src="config.js"></script>
   <script src="core/invite.js"></script>
+
+  <!-- Subtle glass breathing on scroll -->
   <script>
-  let lastScrollY = window.scrollY;
+    let lastScrollY = window.scrollY;
 
-  window.addEventListener("scroll", () => {
-    const panel = document.querySelector(".invite-panel");
-    if (!panel) return;
+    window.addEventListener("scroll", () => {
+      const panel = document.querySelector(".invite-panel");
+      if (!panel) return;
 
-    const delta = Math.abs(window.scrollY - lastScrollY);
-    lastScrollY = window.scrollY;
+      const delta = Math.abs(window.scrollY - lastScrollY);
+      lastScrollY = window.scrollY;
 
-    /* Clamp blur between 7px and 10px */
-    const blur = Math.min(10, Math.max(7, 8 + delta * 0.01));
-    panel.style.setProperty("--glass-blur", `${blur}px`);
-  }, { passive: true });
-</script>
+      const blur = Math.min(10, Math.max(7, 8 + delta * 0.01));
+      panel.style.setProperty("--glass-blur", `${blur}px`);
+    }, { passive: true });
+  </script>
+
 </body>
 </html>
