@@ -111,6 +111,63 @@
   transform: scale(0.97);
 }
 
+/* =========================
+   SUBTLE BUTTON REFLECTION
+   ========================= */
+
+.action-bar a {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Reflection layer */
+.action-bar a::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -120%;
+  width: 200%;
+  height: 180%;
+
+  background: linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,0.25) 50%,
+    transparent 65%
+  );
+
+  transform: translateX(0);
+  opacity: 0.6;
+
+  animation: glass-reflection 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Pause reflection when user interacts */
+.action-bar a:active::before,
+.action-bar a:hover::before {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+@keyframes glass-reflection {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
       
   </style>
 </head>
