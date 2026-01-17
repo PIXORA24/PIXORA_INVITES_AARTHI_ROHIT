@@ -41,7 +41,19 @@
       transition:
         backdrop-filter 0.3s ease,
         box-shadow 0.3s ease,
-        transform 0.35s ease;
+        transform 0.25s ease;
+    }
+
+    /* =========================
+       VIDEO PANEL PRESS FEEDBACK
+       ========================= */
+
+    .invite-panel:active,
+    .invite-panel.pressed {
+      transform: translateY(2px) scale(0.985);
+      box-shadow:
+        0 18px 42px rgba(0,0,0,0.75),
+        0 0 0 1px rgba(255,255,255,0.08);
     }
 
     /* =========================
@@ -196,7 +208,7 @@
 
 <body>
 
-  <div class="invite-panel">
+  <div class="invite-panel" id="invitePanel">
     <video id="inviteVideo" playsinline muted></video>
   </div>
 
@@ -212,12 +224,12 @@
   <script src="config.js"></script>
   <script src="core/invite.js"></script>
 
-  <!-- GLASS RESPONSE ON SCROLL (THIS IS WHAT YOU WERE MISSING) -->
+  <!-- GLASS RESPONSE ON SCROLL -->
   <script>
     let lastScrollY = window.scrollY;
+    const panel = document.getElementById("invitePanel");
 
     window.addEventListener("scroll", () => {
-      const panel = document.querySelector(".invite-panel");
       if (!panel) return;
 
       const delta = Math.abs(window.scrollY - lastScrollY);
@@ -229,6 +241,21 @@
       const offset = Math.min(8, delta * 0.08);
       panel.style.transform = `translateY(${offset}px)`;
     }, { passive: true });
+
+    /* PRESS FEEDBACK FOR MOBILE */
+    if (panel) {
+      panel.addEventListener("touchstart", () => {
+        panel.classList.add("pressed");
+      });
+
+      panel.addEventListener("touchend", () => {
+        panel.classList.remove("pressed");
+      });
+
+      panel.addEventListener("touchcancel", () => {
+        panel.classList.remove("pressed");
+      });
+    }
   </script>
 
 </body>
