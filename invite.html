@@ -77,7 +77,9 @@ body::after {
     0 18px 30px rgba(0,0,0,0.35);
 }
 
-/* GOLD EDGE + SWEEP */
+/* =========================
+   GOLDEN EDGE + SWEEP
+   ========================= */
 
 .invite-frame::after {
   content: "";
@@ -127,11 +129,15 @@ body::after {
 }
 
 @keyframes glass-sweep {
-  0% { transform: translateX(-120%); opacity: 0; }
-  12% { opacity: 0.45; }
-  38% { transform: translateX(120%); opacity: 0; }
+  0%   { transform: translateX(-120%); opacity: 0; }
+  12%  { opacity: 0.45; }
+  38%  { transform: translateX(120%); opacity: 0; }
   100% { transform: translateX(120%); opacity: 0; }
 }
+
+/* =========================
+   PURE VIDEO
+   ========================= */
 
 .invite-frame video {
   width: 100%;
@@ -139,7 +145,7 @@ body::after {
 }
 
 /* =========================
-   CEREMONIAL VEIL (iOS ONLY)
+   iOS CEREMONIAL VEIL
    ========================= */
 
 #ceremonyVeil {
@@ -147,19 +153,23 @@ body::after {
   inset: 0;
   z-index: 5;
 
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 
   background:
     linear-gradient(
       to bottom,
-      rgba(18,7,11,0.45),
-      rgba(18,7,11,0.65)
+      rgba(18,7,11,0.35),
+      rgba(18,7,11,0.55)
     );
 
   backdrop-filter: blur(2px);
   transition: opacity 0.8s ease;
+}
+
+#ceremonyVeil.show {
+  display: flex;
 }
 
 #ceremonyVeil.hide {
@@ -167,10 +177,23 @@ body::after {
   pointer-events: none;
 }
 
-.ceremonyText {
-  font-size: 14px;
+.veil-content {
+  padding: 14px 30px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(212,175,55,0.95),
+    rgba(245,230,170,0.85)
+  );
+
+  color: #1a0e05;
+  font-size: 15px;
   letter-spacing: 0.6px;
-  opacity: 0.85;
+
+  box-shadow:
+    0 10px 30px rgba(212,175,55,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
 /* =========================
@@ -250,9 +273,9 @@ body::after {
 }
 
 @keyframes button-reflection {
-  0% { transform: translateX(-120%); opacity: 0; }
-  20% { opacity: 0.6; }
-  50% { transform: translateX(120%); opacity: 0; }
+  0%   { transform: translateX(-120%); opacity: 0; }
+  20%  { opacity: 0.6; }
+  50%  { transform: translateX(120%); opacity: 0; }
   100% { transform: translateX(120%); opacity: 0; }
 }
 </style>
@@ -260,13 +283,13 @@ body::after {
 
 <body>
 
-<div class="invite-frame" id="inviteFrame">
-  <video id="inviteVideo" playsinline muted></video>
+<div class="invite-frame">
 
-  <!-- CEREMONIAL VEIL -->
   <div id="ceremonyVeil">
-    <div class="ceremonyText">Tap to begin</div>
+    <div class="veil-content">Tap to Open Invitation ✨</div>
   </div>
+
+  <video id="inviteVideo" playsinline muted></video>
 </div>
 
 <div id="countdown"></div>
@@ -281,22 +304,20 @@ body::after {
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
 
-<!-- iOS MEDIA UNLOCK -->
+<!-- iOS AUDIO + VIDEO UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-/* iOS detection (safe) */
+/* Robust iOS detection */
 const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-if (!isIOS) {
-  /* Android / Desktop → no veil */
-  veil.remove();
-} else {
-  /* iOS → unlock on tap */
+if (isIOS) {
+  veil.classList.add("show");
+
   const startInvite = () => {
     veil.classList.add("hide");
 
