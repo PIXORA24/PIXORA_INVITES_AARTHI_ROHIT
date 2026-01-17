@@ -13,10 +13,12 @@ events.forEach(([key, event]) => {
   const card = document.createElement("div");
   card.className = "event-card";
 
-  card.innerHTML = `
+card.innerHTML = `
+  <div class="card-media">
     <img src="${event.path}thumb.jpg">
-    <div class="event-label">${event.label}</div>
-  `;
+    <div class="card-title">${event.label}</div>
+  </div>
+`;
 
   card.onclick = () => {
     window.location.href = `invite.html?event=${key}`;
