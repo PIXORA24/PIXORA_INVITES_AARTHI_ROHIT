@@ -29,7 +29,6 @@ body {
   text-align: center;
   position: relative;
 
-  /* NO BLACK */
   background:
     radial-gradient(
       120% 60% at 50% 0%,
@@ -61,7 +60,7 @@ body::after {
 }
 
 /* =========================
-   INVITE FRAME
+   INVITE FRAME (ALBUM)
    ========================= */
 
 .invite-frame {
@@ -71,14 +70,16 @@ body::after {
   margin: 32px auto 18px;
   border-radius: 16px;
   overflow: hidden;
-  background: #000; /* video frame only */
+  background: #000;
 
   box-shadow:
     0 40px 80px rgba(0,0,0,0.75),
     0 18px 30px rgba(0,0,0,0.35);
 }
 
-/* VIDEO EDGE BREATH */
+/* =========================
+   REFLECTIVE GLASS EDGE
+   ========================= */
 
 .invite-frame::after {
   content: "";
@@ -88,26 +89,71 @@ body::after {
   pointer-events: none;
 
   background:
+    /* top highlight */
     linear-gradient(
       to bottom,
-      rgba(255,255,255,0.14),
-      transparent 28%
+      rgba(255,255,255,0.22),
+      rgba(255,255,255,0.08) 18%,
+      transparent 35%
     ),
-    linear-gradient(
-      to top,
-      rgba(0,0,0,0.30),
-      transparent 32%
+    /* left curvature */
+    radial-gradient(
+      80% 60% at left center,
+      rgba(255,255,255,0.12),
+      transparent 60%
+    ),
+    /* right falloff */
+    radial-gradient(
+      80% 60% at right center,
+      rgba(0,0,0,0.25),
+      transparent 65%
     );
 
-  opacity: 0.45;
-  animation: frame-breathe 14s ease-in-out infinite;
+  opacity: 0.6;
 }
 
-@keyframes frame-breathe {
-  0%   { opacity: 0.35; }
-  50%  { opacity: 0.55; }
-  100% { opacity: 0.35; }
+/* =========================
+   ULTRA-SLOW GLASS SWEEP
+   ========================= */
+
+.invite-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    transparent 42%,
+    rgba(255,255,255,0.26) 50%,
+    transparent 58%
+  );
+
+  opacity: 0;
+  transform: translateX(-120%);
+  animation: glass-sweep 22s ease-in-out infinite;
 }
+
+@keyframes glass-sweep {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.35;
+  }
+  38% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+/* PURE VIDEO — UNTOUCHED */
 
 .invite-frame video {
   width: 100%;
