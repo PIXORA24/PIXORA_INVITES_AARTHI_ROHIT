@@ -14,7 +14,7 @@ events.forEach(([key, event]) => {
   card.className = "event-card";
 
   card.innerHTML = `
-    <img src="${event.path}preview.jpg">
+    <img src="${event.path}thumb.jpg">
     <div class="event-label">${event.label}</div>
   `;
 
