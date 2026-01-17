@@ -139,7 +139,7 @@ body::after {
 }
 
 /* =========================
-   CEREMONIAL VEIL (NEW)
+   CEREMONIAL VEIL (iOS ONLY)
    ========================= */
 
 #ceremonyVeil {
@@ -154,8 +154,8 @@ body::after {
   background:
     linear-gradient(
       to bottom,
-      rgba(18,7,11,0.55),
-      rgba(18,7,11,0.75)
+      rgba(18,7,11,0.45),
+      rgba(18,7,11,0.65)
     );
 
   backdrop-filter: blur(2px);
@@ -281,21 +281,28 @@ body::after {
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
 
-<!-- SYNC VIDEO + MUSIC ON FIRST TAP -->
+<!-- iOS MEDIA UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-function startInvite() {
-  veil.classList.add("hide");
+/* iOS detection (safe) */
+const isIOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-  if (video) {
+if (!isIOS) {
+  /* Android / Desktop → no veil */
+  veil.remove();
+} else {
+  /* iOS → unlock on tap */
+  const startInvite = () => {
+    veil.classList.add("hide");
+
     video.muted = false;
     video.play().catch(() => {});
-  }
 
-  if (music) {
     music.volume = 0;
     music.play().then(() => {
       let v = 0;
@@ -305,14 +312,14 @@ function startInvite() {
         if (v >= 1) clearInterval(fade);
       }, 80);
     }).catch(() => {});
-  }
 
-  veil.removeEventListener("touchstart", startInvite);
-  veil.removeEventListener("click", startInvite);
+    veil.removeEventListener("touchstart", startInvite);
+    veil.removeEventListener("click", startInvite);
+  };
+
+  veil.addEventListener("touchstart", startInvite);
+  veil.addEventListener("click", startInvite);
 }
-
-veil.addEventListener("touchstart", startInvite);
-veil.addEventListener("click", startInvite);
 </script>
 
 </body>
