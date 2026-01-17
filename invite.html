@@ -24,41 +24,20 @@ body {
   font-family: "Playfair Display", serif;
   text-align: center;
   position: relative;
-  background: #050203;
-}
 
-/* =========================
-   SACRED LIGHT VEIL (NEW)
-   ========================= */
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: -20%;
-  z-index: 0;
-  pointer-events: none;
-
+  /* VIDEO-DRIVEN BACKGROUND */
   background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 220, 180, 0.06) 0px,
-      rgba(255, 220, 180, 0.02) 80px,
-      transparent 160px
+    radial-gradient(
+      circle at top,
+      var(--bg-accent, #2a1b22),
+      #050203 70%
     );
 
-  transform: translateY(0);
-  animation: veil-drift 32s ease-in-out infinite;
-  filter: blur(1px);
-}
-
-@keyframes veil-drift {
-  0%   { transform: translateY(0); opacity: 0.35; }
-  50%  { transform: translateY(-24px); opacity: 0.55; }
-  100% { transform: translateY(0); opacity: 0.35; }
+  transition: background 1.8s ease;
 }
 
 /* =========================
-   CEREMONIAL VIGNETTE
+   CEREMONIAL VIGNETTE (DEPTH)
    ========================= */
 
 body::after {
@@ -72,8 +51,8 @@ body::after {
     radial-gradient(
       120% 90% at 50% 40%,
       transparent 40%,
-      rgba(0,0,0,0.55) 70%,
-      rgba(0,0,0,0.9) 100%
+      rgba(0,0,0,0.45) 70%,
+      rgba(0,0,0,0.75) 100%
     );
 }
 
@@ -233,6 +212,42 @@ body::after {
 
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
+
+<!-- VIDEO → BACKGROUND COLOR SYSTEM -->
+<script>
+const video = document.getElementById("inviteVideo");
+
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+function updateBackgroundFromVideo() {
+  if (!video || video.readyState < 2) return;
+
+  canvas.width = 1;
+  canvas.height = 1;
+
+  try {
+    ctx.drawImage(video, 0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+
+    const avg = (r + g + b) / 3;
+
+    const nr = Math.floor((r * 0.6 + avg * 0.4) * 0.45);
+    const ng = Math.floor((g * 0.6 + avg * 0.4) * 0.45);
+    const nb = Math.floor((b * 0.6 + avg * 0.4) * 0.45);
+
+    document.body.style.setProperty(
+      "--bg-accent",
+      `rgb(${nr}, ${ng}, ${nb})`
+    );
+  } catch (e) {}
+}
+
+video.addEventListener("loadeddata", () => {
+  updateBackgroundFromVideo();
+  setInterval(updateBackgroundFromVideo, 6000);
+});
+</script>
 
 </body>
 </html>
