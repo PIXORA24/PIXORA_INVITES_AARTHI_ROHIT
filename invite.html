@@ -30,7 +30,6 @@
       position: relative;
       z-index: 1;
 
-      /* Glass base */
       background: rgba(255, 255, 255, 0.04);
       backdrop-filter: blur(var(--glass-blur, 8px));
       -webkit-backdrop-filter: blur(var(--glass-blur, 8px));
@@ -41,43 +40,51 @@
 
       transition:
         backdrop-filter 0.3s ease,
-        box-shadow 0.3s ease;
+        box-shadow 0.3s ease,
+        transform 0.35s ease;
     }
 
-    /* Video panel aura */
+    /* =========================
+       LIVING DIRECTIONAL LIGHT
+       ========================= */
+
     .invite-panel::before {
       content: "";
       position: absolute;
-      inset: -22px;
+      inset: -36px;
       z-index: -1;
 
-      background: radial-gradient(
-        ellipse at center,
-        rgba(255, 200, 140, 0.22) 0%,
-        rgba(255, 180, 120, 0.14) 35%,
-        rgba(255, 140, 90, 0.08) 55%,
-        transparent 72%
-      );
+      background:
+        radial-gradient(
+          120% 60% at 20% 30%,
+          rgba(255, 210, 160, 0.32),
+          transparent 60%
+        ),
+        radial-gradient(
+          100% 55% at 80% 70%,
+          rgba(255, 170, 120, 0.22),
+          transparent 65%
+        );
 
-      filter: blur(32px);
-      opacity: 0.55;
+      filter: blur(38px);
+      opacity: 0.75;
 
-      animation: aura-breathe 16s ease-in-out infinite;
+      animation: light-drift 18s ease-in-out infinite;
       pointer-events: none;
     }
 
-    @keyframes aura-breathe {
+    @keyframes light-drift {
       0% {
-        opacity: 0.45;
-        transform: scale(0.98);
+        transform: translateY(0px);
+        opacity: 0.55;
       }
       50% {
-        opacity: 0.6;
-        transform: scale(1.02);
+        transform: translateY(-14px);
+        opacity: 0.85;
       }
       100% {
-        opacity: 0.45;
-        transform: scale(0.98);
+        transform: translateY(0px);
+        opacity: 0.55;
       }
     }
 
@@ -205,7 +212,7 @@
   <script src="config.js"></script>
   <script src="core/invite.js"></script>
 
-  <!-- Subtle glass breathing on scroll -->
+  <!-- GLASS RESPONSE ON SCROLL (THIS IS WHAT YOU WERE MISSING) -->
   <script>
     let lastScrollY = window.scrollY;
 
@@ -216,8 +223,11 @@
       const delta = Math.abs(window.scrollY - lastScrollY);
       lastScrollY = window.scrollY;
 
-      const blur = Math.min(10, Math.max(7, 8 + delta * 0.01));
+      const blur = Math.min(11, Math.max(7, 8 + delta * 0.015));
       panel.style.setProperty("--glass-blur", `${blur}px`);
+
+      const offset = Math.min(8, delta * 0.08);
+      panel.style.transform = `translateY(${offset}px)`;
     }, { passive: true });
   </script>
 
