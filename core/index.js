@@ -20,9 +20,12 @@ card.innerHTML = `
   </div>
 `;
 
-  card.onclick = () => {
+card.onclick = () => {
+  setTimeout(() => {
     window.location.href = `invite.html?event=${key}`;
-  };
+  }, 180);
+};
+
 
   grid.appendChild(card);
 });
