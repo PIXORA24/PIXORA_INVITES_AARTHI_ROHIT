@@ -85,6 +85,31 @@
     transform 0.2s ease;
 }
 
+.action-bar a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.35) 50%,
+    transparent 70%
+  );
+
+  transform: translateX(-120%);
+  transition: transform 0.45s ease;
+}
+
+.action-bar a:active::after {
+  transform: translateX(120%);
+}
+
+.action-bar a:active {
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transform: scale(0.97);
+}
 
       
   </style>
