@@ -93,5 +93,20 @@
 
   <script src="config.js"></script>
   <script src="core/invite.js"></script>
+  <script>
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener("scroll", () => {
+    const panel = document.querySelector(".invite-panel");
+    if (!panel) return;
+
+    const delta = Math.abs(window.scrollY - lastScrollY);
+    lastScrollY = window.scrollY;
+
+    /* Clamp blur between 7px and 10px */
+    const blur = Math.min(10, Math.max(7, 8 + delta * 0.01));
+    panel.style.setProperty("--glass-blur", `${blur}px`);
+  }, { passive: true });
+</script>
 </body>
 </html>
