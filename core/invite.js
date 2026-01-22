@@ -7,19 +7,34 @@ if (!event) {
   throw new Error("Invalid event");
 }
 
+/* DOM */
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
+/* iOS detection */
+const isIOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+/* VIDEO — safe on all platforms */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
-music.src = event.path + "music.mp3";
+video.playsInline = true;
+
+/* MAP */
 mapLink.href = event.mapLink;
 
-video.play();
-music.play().catch(() => {});
+/* MUSIC — ONLY ANDROID / DESKTOP */
+if (!isIOS) {
+  music.src = event.path + "music.mp3";
+  music.loop = true;
+
+  /* Android allows this */
+  music.play().catch(() => {});
+}
 
 /* Countdown */
 const target = new Date(event.dateTimeISO).getTime();
