@@ -14,29 +14,31 @@ const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* iOS detection */
+/* Robust iOS detection */
 const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-/* VIDEO — safe on all platforms */
+/* VIDEO (safe everywhere, no autoplay on iOS) */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
+video.muted = isIOS; // REQUIRED for iOS
+
+/* MUSIC */
+music.src = event.path + "music.mp3";
+music.loop = true;
+
+/* ANDROID / DESKTOP: autoplay allowed */
+if (!isIOS) {
+  video.play().catch(() => {});
+  music.play().catch(() => {});
+}
 
 /* MAP */
 mapLink.href = event.mapLink;
 
-/* MUSIC — ONLY ANDROID / DESKTOP */
-if (!isIOS) {
-  music.src = event.path + "music.mp3";
-  music.loop = true;
-
-  /* Android allows this */
-  music.play().catch(() => {});
-}
-
-/* Countdown */
+/* COUNTDOWN */
 const target = new Date(event.dateTimeISO).getTime();
 
 function tick() {
@@ -57,7 +59,7 @@ function tick() {
 tick();
 setInterval(tick, 60000);
 
-/* Calendar */
+/* CALENDAR */
 const start = event.dateTimeISO.replace(/[-:]/g, "").split(".")[0];
 calendarLink.href =
   `https://www.google.com/calendar/render?action=TEMPLATE` +
