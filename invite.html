@@ -17,7 +17,6 @@ html, body {
   touch-action: manipulation;
 }
 
-/* CEREMONIAL MAROON BASE */
 body {
   margin: 0;
   padding: 20px 16px 140px;
@@ -28,23 +27,8 @@ body {
   background:
     radial-gradient(
       120% 60% at 50% 0%,
-      rgba(140,70,80,0.55),
+      rgba(120,60,70,0.55),
       #12070b 65%
-    );
-}
-
-/* VIGNETTE */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      130% 100% at 50% 45%,
-      transparent 38%,
-      rgba(18,7,11,0.45) 65%,
-      rgba(18,7,11,0.85) 100%
     );
 }
 
@@ -79,60 +63,30 @@ body::after {
     );
 }
 
-/* SWEEP */
-.invite-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-
-  background: linear-gradient(
-    120deg,
-    transparent 42%,
-    rgba(212,175,55,0.35) 50%,
-    transparent 58%
-  );
-
-  opacity: 0;
-  transform: translateX(-120%);
-  animation: glass-sweep 22s ease-in-out infinite;
-}
-
-@keyframes glass-sweep {
-  0% { transform: translateX(-120%); opacity: 0; }
-  12% { opacity: 0.45; }
-  38% { transform: translateX(120%); opacity: 0; }
-  100% { transform: translateX(120%); opacity: 0; }
-}
-
 /* VIDEO */
 .invite-frame video {
   width: 100%;
   display: block;
 }
 
-/* iOS VEIL */
+/* TAP OVERLAY (ALL DEVICES) */
 #ceremonyVeil {
   position: absolute;
   inset: 0;
   z-index: 5;
 
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(18,7,11,0.35),
-    rgba(18,7,11,0.55)
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(18,7,11,0.35),
+      rgba(18,7,11,0.6)
+    );
 
   backdrop-filter: blur(2px);
-}
-
-#ceremonyVeil.show {
-  display: flex;
 }
 
 .veil-content {
@@ -247,26 +201,18 @@ body::after {
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
 
-<!-- iOS UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-const isIOS =
-  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+veil.addEventListener("click", () => {
+  video.muted = false;
+  video.play();
+  music.play();
 
-if (isIOS) {
-  veil.classList.add("show");
-
-  veil.addEventListener("touchstart", () => {
-    video.muted = false;
-    video.play();
-    music.play();
-    veil.style.display = "none";
-  }, { once: true });
-}
+  veil.style.display = "none";
+}, { once: true });
 </script>
 
 </body>
