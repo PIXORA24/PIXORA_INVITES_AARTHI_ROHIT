@@ -17,10 +17,6 @@ html, body {
   touch-action: manipulation;
 }
 
-/* =========================
-   CEREMONIAL MAROON BASE
-   ========================= */
-
 body {
   margin: 0;
   padding: 20px 16px 140px;
@@ -32,24 +28,17 @@ body {
   background:
     radial-gradient(
       120% 60% at 50% 0%,
-      var(--bg-accent, rgba(120,60,70,0.45)),
+      rgba(120,60,70,0.45),
       #12070b 65%
     );
-
-  transition: background 2s ease;
 }
 
-/* =========================
-   DEPTH VIGNETTE
-   ========================= */
-
+/* VIGNETTE */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
-
   background:
     radial-gradient(
       130% 100% at 50% 45%,
@@ -59,117 +48,42 @@ body::after {
     );
 }
 
-/* =========================
-   INVITE FRAME
-   ========================= */
-
+/* INVITE FRAME */
 .invite-frame {
   position: relative;
-  z-index: 1;
   max-width: 360px;
   margin: 32px auto 18px;
   border-radius: 16px;
   overflow: hidden;
   background: #000;
-
   box-shadow:
     0 40px 80px rgba(0,0,0,0.75),
     0 18px 30px rgba(0,0,0,0.35);
 }
-
-/* =========================
-   GOLDEN EDGE + SWEEP
-   ========================= */
-
-.invite-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(212,175,55,0.28),
-      rgba(212,175,55,0.12) 18%,
-      transparent 35%
-    ),
-    radial-gradient(
-      80% 60% at left center,
-      rgba(212,175,55,0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      80% 60% at right center,
-      rgba(0,0,0,0.28),
-      transparent 65%
-    );
-
-  opacity: 0.65;
-}
-
-.invite-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-
-  background: linear-gradient(
-    120deg,
-    transparent 42%,
-    rgba(212,175,55,0.35) 50%,
-    transparent 58%
-  );
-
-  opacity: 0;
-  transform: translateX(-120%);
-  animation: glass-sweep 22s ease-in-out infinite;
-}
-
-@keyframes glass-sweep {
-  0%   { transform: translateX(-120%); opacity: 0; }
-  12%  { opacity: 0.45; }
-  38%  { transform: translateX(120%); opacity: 0; }
-  100% { transform: translateX(120%); opacity: 0; }
-}
-
-/* =========================
-   PURE VIDEO
-   ========================= */
 
 .invite-frame video {
   width: 100%;
   display: block;
 }
 
-/* =========================
-   iOS CEREMONIAL VEIL
-   ========================= */
-
+/* OVERLAY */
 #ceremonyVeil {
   position: absolute;
   inset: 0;
   z-index: 5;
-
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
 
   background:
     linear-gradient(
       to bottom,
-      rgba(18,7,11,0.35),
-      rgba(18,7,11,0.55)
+      rgba(18,7,11,0.45),
+      rgba(18,7,11,0.65)
     );
 
   backdrop-filter: blur(2px);
-  transition: opacity 0.8s ease;
-}
-
-#ceremonyVeil.show {
-  display: flex;
+  transition: opacity 0.6s ease;
 }
 
 #ceremonyVeil.hide {
@@ -178,105 +92,54 @@ body::after {
 }
 
 .veil-content {
-  padding: 14px 30px;
+  padding: 14px 32px;
   border-radius: 999px;
-
   background: linear-gradient(
     135deg,
     rgba(212,175,55,0.95),
     rgba(245,230,170,0.85)
   );
-
   color: #1a0e05;
   font-size: 15px;
   letter-spacing: 0.6px;
-
   box-shadow:
     0 10px 30px rgba(212,175,55,0.45),
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* =========================
-   COUNTDOWN
-   ========================= */
-
+/* COUNTDOWN */
 #countdown {
-  position: relative;
-  z-index: 1;
   margin-top: 16px;
   font-size: 14px;
-  letter-spacing: 0.4px;
   opacity: 0.9;
 }
 
-/* =========================
-   ACTION BAR
-   ========================= */
-
+/* ACTION BAR */
 .action-bar {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-
   padding: 16px 16px 24px;
   display: flex;
   gap: 14px;
-
   background: linear-gradient(
     to top,
     rgba(18,7,11,0.95),
     rgba(18,7,11,0.6),
     transparent
   );
-
-  z-index: 10;
 }
 
 .action-bar a {
   flex: 1;
   padding: 14px 0;
   border-radius: 999px;
-
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.25);
-
   color: #fff;
   text-decoration: none;
   font-size: 14px;
-  letter-spacing: 0.4px;
-
-  position: relative;
-  overflow: hidden;
-}
-
-/* BUTTON REFLECTION */
-
-.action-bar a::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -120%;
-  width: 200%;
-  height: 180%;
-
-  background: linear-gradient(
-    120deg,
-    transparent 35%,
-    rgba(212,175,55,0.28) 50%,
-    transparent 65%
-  );
-
-  opacity: 0.6;
-  animation: button-reflection 9s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes button-reflection {
-  0%   { transform: translateX(-120%); opacity: 0; }
-  20%  { opacity: 0.6; }
-  50%  { transform: translateX(120%); opacity: 0; }
-  100% { transform: translateX(120%); opacity: 0; }
 }
 </style>
 </head>
@@ -304,43 +167,25 @@ body::after {
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
 
-<!-- iOS AUDIO + VIDEO UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-/* Robust iOS detection */
-const isIOS =
-  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const startInvite = () => {
+  veil.classList.add("hide");
 
-if (isIOS) {
-  veil.classList.add("show");
+  video.muted = false;
+  video.play().catch(() => {});
 
-  const startInvite = () => {
-    veil.classList.add("hide");
+  music.play().catch(() => {});
 
-    video.muted = false;
-    video.play().catch(() => {});
+  veil.removeEventListener("click", startInvite);
+  veil.removeEventListener("touchstart", startInvite);
+};
 
-    music.volume = 0;
-    music.play().then(() => {
-      let v = 0;
-      const fade = setInterval(() => {
-        v += 0.05;
-        music.volume = Math.min(v, 1);
-        if (v >= 1) clearInterval(fade);
-      }, 80);
-    }).catch(() => {});
-
-    veil.removeEventListener("touchstart", startInvite);
-    veil.removeEventListener("click", startInvite);
-  };
-
-  veil.addEventListener("touchstart", startInvite);
-  veil.addEventListener("click", startInvite);
-}
+veil.addEventListener("click", startInvite);
+veil.addEventListener("touchstart", startInvite);
 </script>
 
 </body>
