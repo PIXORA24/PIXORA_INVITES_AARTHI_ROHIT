@@ -13,15 +13,16 @@
 
 <style>
 html, body {
+  margin: 0;
   overscroll-behavior: none;
   touch-action: manipulation;
 }
 
+/* ===== BACKGROUND ===== */
 body {
-  margin: 0;
   padding: 20px 16px 140px;
-  color: #fff;
   font-family: "Playfair Display", serif;
+  color: #fff;
   text-align: center;
 
   background:
@@ -32,10 +33,7 @@ body {
     );
 }
 
-/* =========================
-   INVITE FRAME
-   ========================= */
-
+/* ===== INVITE FRAME ===== */
 .invite-frame {
   position: relative;
   max-width: 360px;
@@ -44,45 +42,67 @@ body {
   overflow: hidden;
   background: #000;
 
+  /* 🔑 FIX: force layout */
+  aspect-ratio: 9 / 16;
+
   box-shadow:
     0 40px 80px rgba(0,0,0,0.75),
     0 18px 30px rgba(0,0,0,0.35);
 }
 
-/* VIDEO */
-.invite-frame video {
-  width: 100%;
-  display: block;
-  pointer-events: none; /* IMPORTANT */
+/* GOLD EDGE */
+.invite-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(212,175,55,0.28),
+      transparent 35%
+    );
+
+  opacity: 0.6;
 }
 
-/* =========================
-   TAP OVERLAY
-   ========================= */
+/* VIDEO */
+.invite-frame video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
+/* ===== TAP OVERLAY ===== */
 #tapOverlay {
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 5;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(18,7,11,0.35),
-    rgba(18,7,11,0.6)
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(18,7,11,0.35),
+      rgba(18,7,11,0.55)
+    );
 
   backdrop-filter: blur(2px);
 }
 
 #tapOverlay.hidden {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.tap-button {
+.tap-btn {
   padding: 14px 32px;
   border-radius: 999px;
 
@@ -101,21 +121,14 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* =========================
-   COUNTDOWN
-   ========================= */
-
+/* ===== COUNTDOWN ===== */
 #countdown {
   margin-top: 16px;
   font-size: 14px;
-  letter-spacing: 0.4px;
   opacity: 0.9;
 }
 
-/* =========================
-   ACTION BAR
-   ========================= */
-
+/* ===== ACTION BAR ===== */
 .action-bar {
   position: fixed;
   left: 0;
@@ -145,13 +158,12 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 14px;
-  letter-spacing: 0.4px;
 
   position: relative;
   overflow: hidden;
 }
 
-/* Button reflection */
+/* BUTTON REFLECTION */
 .action-bar a::before {
   content: "";
   position: absolute;
@@ -167,13 +179,13 @@ body {
     transparent 65%
   );
 
-  animation: btn-reflect 9s ease-in-out infinite;
+  animation: button-reflection 9s ease-in-out infinite;
 }
 
-@keyframes btn-reflect {
-  0%   { transform: translateX(-120%); opacity: 0; }
-  20%  { opacity: 0.6; }
-  50%  { transform: translateX(120%); opacity: 0; }
+@keyframes button-reflection {
+  0% { transform: translateX(-120%); opacity: 0; }
+  20% { opacity: 0.6; }
+  50% { transform: translateX(120%); opacity: 0; }
   100% { transform: translateX(120%); opacity: 0; }
 }
 </style>
@@ -184,7 +196,7 @@ body {
 <div class="invite-frame">
 
   <div id="tapOverlay">
-    <div class="tap-button">Tap to Open Invitation ✨</div>
+    <div class="tap-btn">Tap to Open Invitation ✨</div>
   </div>
 
   <video id="inviteVideo" playsinline muted></video>
@@ -200,25 +212,29 @@ body {
 <audio id="inviteMusic" loop></audio>
 
 <script src="config.js"></script>
-<script src="invite.js"></script>
+<script src="core/invite.js"></script>
 
 <script>
 const overlay = document.getElementById("tapOverlay");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-function startInvite() {
-  video.muted = false;
-  video.play();
-
-  music.play();
-
+overlay.addEventListener("click", () => {
   overlay.classList.add("hidden");
-  video.style.pointerEvents = "auto";
-}
 
-overlay.addEventListener("touchend", startInvite, { once: true });
-overlay.addEventListener("click", startInvite, { once: true });
+  video.muted = false;
+  video.play().catch(() => {});
+
+  music.volume = 0;
+  music.play().then(() => {
+    let v = 0;
+    const fade = setInterval(() => {
+      v += 0.05;
+      music.volume = Math.min(v, 1);
+      if (v >= 1) clearInterval(fade);
+    }, 80);
+  }).catch(() => {});
+}, { once: true });
 </script>
 
 </body>
