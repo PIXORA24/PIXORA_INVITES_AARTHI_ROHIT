@@ -7,13 +7,14 @@ if (!event) {
   throw new Error("Invalid event");
 }
 
+/* DOM */
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* MEDIA */
+/* MEDIA SOURCES */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
@@ -30,7 +31,6 @@ const target = new Date(event.dateTimeISO).getTime();
 
 function tick() {
   const diff = target - Date.now();
-
   if (diff <= 0) {
     countdown.textContent = "The celebration has begun ✨";
     return;
