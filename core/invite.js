@@ -1,9 +1,12 @@
 const params = new URLSearchParams(window.location.search);
-const key = params.get("event");
+
+/* 🔑 SAFE DEFAULT */
+let key = params.get("event");
+if (!key) key = "wedding";
 
 const event = INVITE_CONFIG.events[key];
 if (!event) {
-  document.body.innerHTML = "Invalid event";
+  document.body.innerHTML = "Invalid event configuration";
   throw new Error("Invalid event");
 }
 
@@ -14,11 +17,10 @@ const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* MEDIA SOURCES */
+/* MEDIA */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
-video.muted = true;
 
 music.src = event.path + "music.mp3";
 music.loop = true;
