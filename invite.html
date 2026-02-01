@@ -305,6 +305,7 @@ body::after {
 <script src="core/invite.js"></script>
 
 <!-- iOS AUDIO + VIDEO UNLOCK -->
+<!-- iOS AUDIO + VIDEO UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
@@ -323,20 +324,17 @@ if (isIOS) {
     video.muted = false;
     video.play();
 
-    music.src = video.src.replace("video.mp4", "music.mp3");
     music.loop = true;
     music.play();
 
     veil.classList.add("hide");
-
-    veil.removeEventListener("touchstart", startInvite);
-    veil.removeEventListener("click", startInvite);
   };
 
   veil.addEventListener("touchstart", startInvite, { once: true });
   veil.addEventListener("click", startInvite, { once: true });
 }
 </script>
+
 
 </body>
 </html>
