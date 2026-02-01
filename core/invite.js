@@ -1,11 +1,10 @@
 const params = new URLSearchParams(window.location.search);
 const key = params.get("event");
 
+if (!key) window.location.href = "index.html";
+
 const event = INVITE_CONFIG.events[key];
-if (!event) {
-  document.body.innerHTML = "Invalid event";
-  throw new Error("Invalid event");
-}
+if (!event) window.location.href = "index.html";
 
 /* DOM */
 const video = document.getElementById("inviteVideo");
@@ -14,52 +13,46 @@ const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* Robust iOS detection */
+/* iOS detection */
 const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-/* VIDEO (safe everywhere, no autoplay on iOS) */
+/* Media sources ONLY */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
-video.muted = isIOS; // REQUIRED for iOS
+video.muted = isIOS;
 
-/* MUSIC */
 music.src = event.path + "music.mp3";
 music.loop = true;
 
-/* ANDROID / DESKTOP: autoplay allowed */
+/* Android / desktop autoplay */
 if (!isIOS) {
   video.play().catch(() => {});
   music.play().catch(() => {});
 }
 
-/* MAP */
+/* Map */
 mapLink.href = event.mapLink;
 
-/* COUNTDOWN */
+/* Countdown */
 const target = new Date(event.dateTimeISO).getTime();
-
 function tick() {
   const diff = target - Date.now();
   if (diff <= 0) {
     countdown.textContent = "The celebration has begun ✨";
     return;
   }
-
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
   const m = Math.floor((diff / 60000) % 60);
-
-  countdown.textContent =
-    `${d} days · ${h} hours · ${m} minutes remaining`;
+  countdown.textContent = `${d} days · ${h} hours · ${m} minutes remaining`;
 }
-
 tick();
 setInterval(tick, 60000);
 
-/* CALENDAR */
+/* Calendar */
 const start = event.dateTimeISO.replace(/[-:]/g, "").split(".")[0];
 calendarLink.href =
   `https://www.google.com/calendar/render?action=TEMPLATE` +
