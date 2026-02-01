@@ -17,7 +17,7 @@ html, body {
   touch-action: manipulation;
 }
 
-/* ===== CEREMONIAL MAROON BASE ===== */
+/* CEREMONIAL MAROON BASE */
 body {
   margin: 0;
   padding: 20px 16px 140px;
@@ -28,19 +28,17 @@ body {
   background:
     radial-gradient(
       120% 60% at 50% 0%,
-      var(--bg-accent, rgba(120,60,70,0.45)),
+      rgba(140,70,80,0.55),
       #12070b 65%
     );
 }
 
-/* ===== DEPTH VIGNETTE ===== */
+/* VIGNETTE */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
-
   background:
     radial-gradient(
       130% 100% at 50% 45%,
@@ -50,10 +48,9 @@ body::after {
     );
 }
 
-/* ===== INVITE FRAME ===== */
+/* INVITE FRAME */
 .invite-frame {
   position: relative;
-  z-index: 1;
   max-width: 360px;
   margin: 32px auto 18px;
   border-radius: 16px;
@@ -65,7 +62,7 @@ body::after {
     0 18px 30px rgba(0,0,0,0.35);
 }
 
-/* ===== GOLDEN EDGE ===== */
+/* GOLD EDGE */
 .invite-frame::after {
   content: "";
   position: absolute;
@@ -80,11 +77,9 @@ body::after {
       rgba(212,175,55,0.12) 18%,
       transparent 35%
     );
-
-  opacity: 0.65;
 }
 
-/* ===== ULTRA SLOW SWEEP ===== */
+/* SWEEP */
 .invite-frame::before {
   content: "";
   position: absolute;
@@ -99,8 +94,8 @@ body::after {
     transparent 58%
   );
 
-  transform: translateX(-120%);
   opacity: 0;
+  transform: translateX(-120%);
   animation: glass-sweep 22s ease-in-out infinite;
 }
 
@@ -111,17 +106,18 @@ body::after {
   100% { transform: translateX(120%); opacity: 0; }
 }
 
-/* ===== VIDEO ===== */
+/* VIDEO */
 .invite-frame video {
   width: 100%;
   display: block;
 }
 
-/* ===== iOS CEREMONIAL VEIL ===== */
+/* iOS VEIL */
 #ceremonyVeil {
   position: absolute;
   inset: 0;
   z-index: 5;
+
   display: none;
   align-items: center;
   justify-content: center;
@@ -133,20 +129,14 @@ body::after {
   );
 
   backdrop-filter: blur(2px);
-  transition: opacity 0.8s ease;
 }
 
 #ceremonyVeil.show {
   display: flex;
 }
 
-#ceremonyVeil.hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .veil-content {
-  padding: 14px 30px;
+  padding: 14px 32px;
   border-radius: 999px;
 
   background: linear-gradient(
@@ -164,20 +154,19 @@ body::after {
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* ===== COUNTDOWN ===== */
+/* COUNTDOWN */
 #countdown {
   margin-top: 16px;
   font-size: 14px;
   opacity: 0.9;
 }
 
-/* ===== ACTION BAR ===== */
+/* ACTION BAR */
 .action-bar {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-
   padding: 16px 16px 24px;
   display: flex;
   gap: 14px;
@@ -188,19 +177,20 @@ body::after {
     rgba(18,7,11,0.6),
     transparent
   );
-
-  z-index: 10;
 }
 
 .action-bar a {
   flex: 1;
   padding: 14px 0;
   border-radius: 999px;
+
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.25);
+
   color: #fff;
   text-decoration: none;
   font-size: 14px;
+
   position: relative;
   overflow: hidden;
 }
@@ -221,6 +211,7 @@ body::after {
     transparent 65%
   );
 
+  opacity: 0.6;
   animation: button-reflection 9s ease-in-out infinite;
 }
 
@@ -256,7 +247,7 @@ body::after {
 <script src="config.js"></script>
 <script src="core/invite.js"></script>
 
-<!-- iOS UNLOCK (ONLY PLACE THAT PLAYS MEDIA) -->
+<!-- iOS UNLOCK -->
 <script>
 const veil = document.getElementById("ceremonyVeil");
 const video = document.getElementById("inviteVideo");
@@ -269,17 +260,12 @@ const isIOS =
 if (isIOS) {
   veil.classList.add("show");
 
-  const unlock = () => {
+  veil.addEventListener("touchstart", () => {
     video.muted = false;
     video.play();
-
     music.play();
-
-    veil.classList.add("hide");
-  };
-
-  veil.addEventListener("touchstart", unlock, { once: true });
-  veil.addEventListener("click", unlock, { once: true });
+    veil.style.display = "none";
+  }, { once: true });
 }
 </script>
 
