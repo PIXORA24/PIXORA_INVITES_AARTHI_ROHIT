@@ -1,27 +1,39 @@
 const params = new URLSearchParams(window.location.search);
-const key = params.get("event");
+let key = params.get("event");
+
+/* 🔧 FALLBACK: pick first enabled event */
+if (!key || !INVITE_CONFIG.events[key]) {
+  key = Object.keys(INVITE_CONFIG.events)
+    .find(k => INVITE_CONFIG.events[k].enabled);
+}
 
 const event = INVITE_CONFIG.events[key];
+
 if (!event) {
-  document.body.innerHTML = "Invalid event";
+  document.body.innerHTML = "No valid event found";
   throw new Error("Invalid event");
 }
 
+/* DOM */
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
+/* MEDIA */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
+video.playsInline = true;
+video.muted = true;
 
 music.src = event.path + "music.mp3";
 music.loop = true;
 
+/* MAP */
 mapLink.href = event.mapLink;
 
-/* Countdown */
+/* COUNTDOWN */
 const target = new Date(event.dateTimeISO).getTime();
 
 function tick() {
@@ -42,7 +54,7 @@ function tick() {
 tick();
 setInterval(tick, 60000);
 
-/* Calendar */
+/* CALENDAR */
 const start = event.dateTimeISO.replace(/[-:]/g, "").split(".")[0];
 calendarLink.href =
   `https://www.google.com/calendar/render?action=TEMPLATE` +
