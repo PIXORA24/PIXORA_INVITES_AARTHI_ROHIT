@@ -1,17 +1,13 @@
 const params = new URLSearchParams(window.location.search);
 const key = params.get("event");
 
-/* Redirect safety */
-if (!key) {
+/* SAFETY: redirect if opened wrongly */
+if (!key || !INVITE_CONFIG.events[key]) {
   window.location.href = "index.html";
-  throw new Error("Missing event key");
+  throw new Error("Invalid or missing event");
 }
 
 const event = INVITE_CONFIG.events[key];
-if (!event) {
-  window.location.href = "index.html";
-  throw new Error("Invalid event");
-}
 
 /* DOM */
 const video = document.getElementById("inviteVideo");
@@ -20,17 +16,18 @@ const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* Robust iOS detection */
+/* iOS detection (battle-tested) */
 const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-/* MEDIA SETUP (NO PLAY YET) */
+/* VIDEO */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
 video.muted = isIOS; // REQUIRED for iOS
 
+/* MUSIC */
 music.src = event.path + "music.mp3";
 music.loop = true;
 
@@ -48,6 +45,7 @@ const target = new Date(event.dateTimeISO).getTime();
 
 function tick() {
   const diff = target - Date.now();
+
   if (diff <= 0) {
     countdown.textContent = "The celebration has begun ✨";
     return;
