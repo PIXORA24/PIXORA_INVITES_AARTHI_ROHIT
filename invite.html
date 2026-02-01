@@ -27,12 +27,15 @@ body {
   background:
     radial-gradient(
       120% 60% at 50% 0%,
-      rgba(120,60,70,0.55),
+      rgba(120,60,70,0.45),
       #12070b 65%
     );
 }
 
-/* INVITE FRAME */
+/* =========================
+   INVITE FRAME
+   ========================= */
+
 .invite-frame {
   position: relative;
   max-width: 360px;
@@ -46,50 +49,40 @@ body {
     0 18px 30px rgba(0,0,0,0.35);
 }
 
-/* GOLD EDGE */
-.invite-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(212,175,55,0.28),
-      rgba(212,175,55,0.12) 18%,
-      transparent 35%
-    );
-}
-
 /* VIDEO */
 .invite-frame video {
   width: 100%;
   display: block;
+  pointer-events: none; /* IMPORTANT */
 }
 
-/* TAP OVERLAY (ALL DEVICES) */
-#ceremonyVeil {
+/* =========================
+   TAP OVERLAY
+   ========================= */
+
+#tapOverlay {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 10;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(18,7,11,0.35),
-      rgba(18,7,11,0.6)
-    );
+  background: linear-gradient(
+    to bottom,
+    rgba(18,7,11,0.35),
+    rgba(18,7,11,0.6)
+  );
 
   backdrop-filter: blur(2px);
 }
 
-.veil-content {
+#tapOverlay.hidden {
+  display: none;
+}
+
+.tap-button {
   padding: 14px 32px;
   border-radius: 999px;
 
@@ -108,19 +101,27 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* COUNTDOWN */
+/* =========================
+   COUNTDOWN
+   ========================= */
+
 #countdown {
   margin-top: 16px;
   font-size: 14px;
+  letter-spacing: 0.4px;
   opacity: 0.9;
 }
 
-/* ACTION BAR */
+/* =========================
+   ACTION BAR
+   ========================= */
+
 .action-bar {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
+
   padding: 16px 16px 24px;
   display: flex;
   gap: 14px;
@@ -144,12 +145,13 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 14px;
+  letter-spacing: 0.4px;
 
   position: relative;
   overflow: hidden;
 }
 
-/* BUTTON REFLECTION */
+/* Button reflection */
 .action-bar a::before {
   content: "";
   position: absolute;
@@ -165,14 +167,13 @@ body {
     transparent 65%
   );
 
-  opacity: 0.6;
-  animation: button-reflection 9s ease-in-out infinite;
+  animation: btn-reflect 9s ease-in-out infinite;
 }
 
-@keyframes button-reflection {
-  0% { transform: translateX(-120%); opacity: 0; }
-  20% { opacity: 0.6; }
-  50% { transform: translateX(120%); opacity: 0; }
+@keyframes btn-reflect {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  20%  { opacity: 0.6; }
+  50%  { transform: translateX(120%); opacity: 0; }
   100% { transform: translateX(120%); opacity: 0; }
 }
 </style>
@@ -182,8 +183,8 @@ body {
 
 <div class="invite-frame">
 
-  <div id="ceremonyVeil">
-    <div class="veil-content">Tap to Open Invitation ✨</div>
+  <div id="tapOverlay">
+    <div class="tap-button">Tap to Open Invitation ✨</div>
   </div>
 
   <video id="inviteVideo" playsinline muted></video>
@@ -199,20 +200,25 @@ body {
 <audio id="inviteMusic" loop></audio>
 
 <script src="config.js"></script>
-<script src="core/invite.js"></script>
+<script src="invite.js"></script>
 
 <script>
-const veil = document.getElementById("ceremonyVeil");
+const overlay = document.getElementById("tapOverlay");
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 
-veil.addEventListener("click", () => {
+function startInvite() {
   video.muted = false;
   video.play();
+
   music.play();
 
-  veil.style.display = "none";
-}, { once: true });
+  overlay.classList.add("hidden");
+  video.style.pointerEvents = "auto";
+}
+
+overlay.addEventListener("touchend", startInvite, { once: true });
+overlay.addEventListener("click", startInvite, { once: true });
 </script>
 
 </body>
