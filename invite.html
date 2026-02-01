@@ -319,27 +319,22 @@ if (isIOS) {
   veil.classList.add("show");
 
   const startInvite = () => {
-    veil.classList.add("hide");
-
+    /* MUST be synchronous */
     video.muted = false;
-    video.play().catch(() => {});
+    video.play();
 
-    music.volume = 0;
-    music.play().then(() => {
-      let v = 0;
-      const fade = setInterval(() => {
-        v += 0.05;
-        music.volume = Math.min(v, 1);
-        if (v >= 1) clearInterval(fade);
-      }, 80);
-    }).catch(() => {});
+    music.src = video.src.replace("video.mp4", "music.mp3");
+    music.loop = true;
+    music.play();
+
+    veil.classList.add("hide");
 
     veil.removeEventListener("touchstart", startInvite);
     veil.removeEventListener("click", startInvite);
   };
 
-  veil.addEventListener("touchstart", startInvite);
-  veil.addEventListener("click", startInvite);
+  veil.addEventListener("touchstart", startInvite, { once: true });
+  veil.addEventListener("click", startInvite, { once: true });
 }
 </script>
 
