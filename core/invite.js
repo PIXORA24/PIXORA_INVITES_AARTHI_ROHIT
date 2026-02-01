@@ -1,9 +1,9 @@
 const params = new URLSearchParams(window.location.search);
-const key = params.get("event") || "wedding";
+const key = params.get("event");
 
 const event = INVITE_CONFIG.events[key];
 if (!event) {
-  document.body.innerHTML = "Invalid event configuration";
+  document.body.innerHTML = "Invalid event";
   throw new Error("Invalid event");
 }
 
@@ -15,7 +15,6 @@ const calendarLink = document.getElementById("calendarLink");
 
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
-video.playsInline = true;
 
 music.src = event.path + "music.mp3";
 music.loop = true;
@@ -24,17 +23,22 @@ mapLink.href = event.mapLink;
 
 /* Countdown */
 const target = new Date(event.dateTimeISO).getTime();
+
 function tick() {
   const diff = target - Date.now();
   if (diff <= 0) {
     countdown.textContent = "The celebration has begun ✨";
     return;
   }
+
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff / 3600000) % 24);
   const m = Math.floor((diff / 60000) % 60);
-  countdown.textContent = `${d} days · ${h} hours · ${m} minutes remaining`;
+
+  countdown.textContent =
+    `${d} days · ${h} hours · ${m} minutes remaining`;
 }
+
 tick();
 setInterval(tick, 60000);
 
