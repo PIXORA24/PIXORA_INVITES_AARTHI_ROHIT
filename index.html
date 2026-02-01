@@ -1,136 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta charset="UTF-8" />
 
-<title>Invitation</title>
+  <title>Aarthi & Rohit Wedding Invitation</title>
 
-<style>
-html, body {
-  margin: 0;
-  overscroll-behavior: none;
-  touch-action: manipulation;
-}
+  <!-- WhatsApp / Instagram Preview -->
+  <meta property="og:title" content="Aarthi & Rohit are getting married 💍" />
+  <meta property="og:description"
+        content="With the blessings of our families, we joyfully invite you to celebrate our wedding and reception." />
+  <meta property="og:image"
+        content="https://pixora24.github.io/PIXORA_INVITES_AARTHI_ROHIT/assets/preview.jpg" />
+  <meta property="og:type" content="website" />
 
-body {
-  padding: 20px 16px 140px;
-  background: radial-gradient(120% 60% at 50% 0%, #7a3b46, #12070b 65%);
-  color: #fff;
-  font-family: "Playfair Display", serif;
-  text-align: center;
-}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-/* INVITE FRAME */
-.invite-frame {
-  position: relative;
-  max-width: 360px;
-  margin: 32px auto 18px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 40px 80px rgba(0,0,0,.75);
-}
+  <!-- Base page styling -->
+  <style>
+    body {
+      margin: 0;
+      padding: 24px 16px 40px;
+      background: radial-gradient(circle at top, #1c0d14 0%, #000 70%);
+      font-family: 'Playfair Display', serif;
+      color: #fff;
+    }
 
-.invite-frame video {
-  width: 100%;
-  display: block;
-}
+    #eventGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+    }
+  </style>
 
-/* OVERLAY */
-#ceremonyVeil {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(
-    to bottom,
-    rgba(18,7,11,.35),
-    rgba(18,7,11,.65)
-  );
-  backdrop-filter: blur(2px);
-}
+  <!-- Glass + Ripple styles -->
+  <link rel="stylesheet" href="core/glass.css">
 
-.veil-content {
-  padding: 14px 30px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #d4af37, #f5e6aa);
-  color: #1a0e05;
-  font-size: 15px;
-  letter-spacing: .6px;
-  box-shadow: 0 10px 30px rgba(212,175,55,.45);
-}
-
-/* COUNTDOWN */
-#countdown {
-  margin-top: 16px;
-  font-size: 14px;
-  opacity: .9;
-}
-
-/* ACTION BAR */
-.action-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 16px;
-  display: flex;
-  gap: 14px;
-  background: linear-gradient(to top, rgba(18,7,11,.95), transparent);
-}
-
-.action-bar a {
-  flex: 1;
-  padding: 14px 0;
-  border-radius: 999px;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.25);
-  color: #fff;
-  text-decoration: none;
-}
-</style>
+  <!-- Font for invite feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="invite-frame">
-  <div id="ceremonyVeil">
-    <div class="veil-content">Tap to Open Invitation ✨</div>
-  </div>
+  <!-- REQUIRED container -->
+  <div id="eventGrid"></div>
 
-  <video id="inviteVideo" playsinline muted></video>
-</div>
+  <!-- Load client config FIRST -->
+  <script src="config.js"></script>
 
-<div id="countdown"></div>
+  <!-- Ripple interaction -->
+  <script src="core/ripple.js" defer></script>
 
-<div class="action-bar">
-  <a id="mapLink" target="_blank">Open Map</a>
-  <a id="calendarLink" target="_blank">Add to Calendar</a>
-</div>
-
-<audio id="inviteMusic" loop></audio>
-
-<script src="config.js"></script>
-<script src="core/invite.js"></script>
-
-<script>
-const veil = document.getElementById("ceremonyVeil");
-const video = document.getElementById("inviteVideo");
-const music = document.getElementById("inviteMusic");
-
-veil.addEventListener("click", () => {
-  veil.style.display = "none";
-
-  video.muted = false;
-  video.play().catch(()=>{});
-
-  music.play().catch(()=>{});
-}, { once: true });
-</script>
+  <!-- Landing page logic -->
+  <script src="core/index.js" defer></script>
 
 </body>
 </html>
