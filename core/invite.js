@@ -1,41 +1,26 @@
 const params = new URLSearchParams(window.location.search);
 const key = params.get("event");
 
-/* SAFETY: redirect if opened wrongly */
-if (!key || !INVITE_CONFIG.events[key]) {
-  window.location.href = "index.html";
-  throw new Error("Invalid or missing event");
+const event = INVITE_CONFIG.events[key];
+if (!event) {
+  document.body.innerHTML = "Invalid event";
+  throw new Error("Invalid event");
 }
 
-const event = INVITE_CONFIG.events[key];
-
-/* DOM */
 const video = document.getElementById("inviteVideo");
 const music = document.getElementById("inviteMusic");
 const countdown = document.getElementById("countdown");
 const mapLink = document.getElementById("mapLink");
 const calendarLink = document.getElementById("calendarLink");
 
-/* iOS detection (battle-tested) */
-const isIOS =
-  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-/* VIDEO */
+/* MEDIA */
 video.src = event.path + "video.mp4";
 video.poster = event.path + "bg.jpg";
 video.playsInline = true;
-video.muted = isIOS; // REQUIRED for iOS
+video.muted = true;
 
-/* MUSIC */
 music.src = event.path + "music.mp3";
 music.loop = true;
-
-/* ANDROID / DESKTOP AUTOPLAY */
-if (!isIOS) {
-  video.play().catch(() => {});
-  music.play().catch(() => {});
-}
 
 /* MAP */
 mapLink.href = event.mapLink;
